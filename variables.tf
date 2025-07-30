@@ -181,3 +181,9 @@ variable "maximum_used_transaction_ids_too_high_threshold" {
   default     = "1000000000" // 1 billion. Half of total.
   description = "Alarm threshold for the 'maximumUsedTransactionIDs' alarm"
 }
+
+variable "low_database_connections_threshold" {
+  type        = string
+  default     = "10"
+  description = "Alarm threshold for the 'lowDatabaseConnections' alarm"
+}

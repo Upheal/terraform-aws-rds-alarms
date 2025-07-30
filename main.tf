@@ -244,3 +244,23 @@ resource "aws_cloudwatch_metric_alarm" "write_iops_too_high" {
     DBInstanceIdentifier = var.db_instance_id
   }
 }
+
+resource "aws_cloudwatch_metric_alarm" "low_database_connections" {
+  alarm_name          = "${var.prefix}-ec2-${var.db_instance_id}-lowDatabaseConnections"
+  metric_name         = "DatabaseConnections"
+  comparison_operator = "LessThanOrEqualToThreshold"
+  namespace           = "AWS/RDS"
+  statistic           = "Average"
+  evaluation_periods  = 2
+  period              = 60
+  threshold           = var.low_database_connections_threshold
+  alarm_description   = "Average database connections are low, indicating the database is not in use."
+  alarm_actions       = var.actions_alarm
+  ok_actions          = var.actions_ok
+
+  tags = var.tags
+
+  dimensions = {
+    DBInstanceIdentifier = var.db_instance_id
+  }
+}
