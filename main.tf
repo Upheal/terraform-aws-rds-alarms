@@ -264,3 +264,21 @@ resource "aws_cloudwatch_metric_alarm" "low_database_connections" {
     DBInstanceIdentifier = var.db_instance_id
   }
 }
+
+resource "aws_cloudwatch_metric_alarm" "ebs_byte_balance_alarm" {
+  alarm_name        = "${var.prefix}-rds-${var.db_instance_id}-EBSLowByteBalanceAlarm"
+  alarm_description = "RDS EBS byte balance alarm. Triggers when EBS byte balance is less than threshold"
+  namespace         = "AWS/RDS"
+  metric_name       = "EBSByteBalance"
+  dimensions = {
+    DBInstanceIdentifier = var.db_instance_id
+  }
+  statistic           = "Average"
+  period              = 300
+  evaluation_periods  = 1
+  threshold           = var.ebs_byte_balance_too_low_threshold
+  comparison_operator = "LessThanThreshold"
+  alarm_actions       = var.actions_alarm
+  ok_actions          = var.actions_ok
+  treat_missing_data  = "notBreaching"
+}
