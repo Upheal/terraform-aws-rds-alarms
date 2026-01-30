@@ -51,6 +51,18 @@ variable "create_low_disk_burst_alarm" {
   description = "Whether or not to create the low disk burst alarm.  Default is to create it (for backwards compatible support)"
 }
 
+variable "create_ebs_io_balance_alarm" {
+  type        = bool
+  default     = true
+  description = "Whether or not to create the EBS IO balance alarms. Default is to create them."
+}
+
+variable "create_ebs_byte_balance_alarm" {
+  type        = bool
+  default     = true
+  description = "Whether or not to create the EBS byte balance alarms. Default is to create them."
+}
+
 variable "create_low_memory_alarm" {
   type        = bool
   default     = true
@@ -133,6 +145,30 @@ variable "disk_burst_balance_too_low_threshold" {
   type        = string
   default     = "100"
   description = "Alarm threshold for the 'lowEBSBurstBalance' alarm"
+}
+
+variable "ebs_io_balance_warn_threshold" {
+  type        = string
+  default     = "80"
+  description = "Warning alarm threshold for the 'EBSIOBalance' alarm (percentage)"
+}
+
+variable "ebs_io_balance_crit_threshold" {
+  type        = string
+  default     = "30"
+  description = "Critical alarm threshold for the 'EBSIOBalance' alarm (percentage)"
+}
+
+variable "ebs_byte_balance_warn_threshold" {
+  type        = string
+  default     = "80"
+  description = "Warning alarm threshold for the 'EBSByteBalance' alarm (percentage)"
+}
+
+variable "ebs_byte_balance_crit_threshold" {
+  type        = string
+  default     = "30"
+  description = "Critical alarm threshold for the 'EBSByteBalance' alarm (percentage)"
 }
 
 variable "memory_freeable_too_low_threshold" {

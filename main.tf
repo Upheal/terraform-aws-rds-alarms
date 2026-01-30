@@ -108,6 +108,87 @@ resource "aws_cloudwatch_metric_alarm" "disk_burst_balance_too_low" {
   tags = var.tags
 }
 
+resource "aws_cloudwatch_metric_alarm" "ebs_io_balance_warn" {
+  count               = var.create_ebs_io_balance_alarm ? 1 : 0
+  alarm_name          = "WARN: ${var.prefix}rds-${var.db_instance_id}-EBSIOBalance"
+  comparison_operator = "LessThanThreshold"
+  evaluation_periods  = var.evaluation_period
+  metric_name         = "EBSIOBalance%"
+  namespace           = "AWS/RDS"
+  period              = var.statistic_period
+  statistic           = "Average"
+  threshold           = var.ebs_io_balance_warn_threshold
+  alarm_description   = "EBS IO balance is below warning threshold, I/O credits are being consumed."
+  alarm_actions       = var.actions_alarm
+  ok_actions          = var.actions_ok
+
+  dimensions = {
+    DBInstanceIdentifier = var.db_instance_id
+  }
+  tags = var.tags
+}
+
+resource "aws_cloudwatch_metric_alarm" "ebs_io_balance_crit" {
+  count               = var.create_ebs_io_balance_alarm ? 1 : 0
+  alarm_name          = "CRIT: ${var.prefix}rds-${var.db_instance_id}-EBSIOBalance"
+  comparison_operator = "LessThanThreshold"
+  evaluation_periods  = var.evaluation_period
+  metric_name         = "EBSIOBalance%"
+  namespace           = "AWS/RDS"
+  period              = var.statistic_period
+  statistic           = "Average"
+  threshold           = var.ebs_io_balance_crit_threshold
+  alarm_description   = "EBS IO balance is critically low, I/O performance degradation is imminent."
+  alarm_actions       = var.actions_alarm
+  ok_actions          = var.actions_ok
+
+  dimensions = {
+    DBInstanceIdentifier = var.db_instance_id
+  }
+  tags = var.tags
+}
+
+resource "aws_cloudwatch_metric_alarm" "ebs_byte_balance_warn" {
+  count               = var.create_ebs_byte_balance_alarm ? 1 : 0
+  alarm_name          = "WARN: ${var.prefix}rds-${var.db_instance_id}-EBSByteBalance"
+  comparison_operator = "LessThanThreshold"
+  evaluation_periods  = var.evaluation_period
+  metric_name         = "EBSByteBalance%"
+  namespace           = "AWS/RDS"
+  period              = var.statistic_period
+  statistic           = "Average"
+  threshold           = var.ebs_byte_balance_warn_threshold
+  alarm_description   = "EBS byte balance is below warning threshold, throughput credits are being consumed."
+  alarm_actions       = var.actions_alarm
+  ok_actions          = var.actions_ok
+
+  dimensions = {
+    DBInstanceIdentifier = var.db_instance_id
+  }
+  tags = var.tags
+}
+
+resource "aws_cloudwatch_metric_alarm" "ebs_byte_balance_crit" {
+  count               = var.create_ebs_byte_balance_alarm ? 1 : 0
+  alarm_name          = "CRIT: ${var.prefix}rds-${var.db_instance_id}-EBSByteBalance"
+  comparison_operator = "LessThanThreshold"
+  evaluation_periods  = var.evaluation_period
+  metric_name         = "EBSByteBalance%"
+  namespace           = "AWS/RDS"
+  period              = var.statistic_period
+  statistic           = "Average"
+  threshold           = var.ebs_byte_balance_crit_threshold
+  alarm_description   = "EBS byte balance is critically low, throughput performance degradation is imminent."
+  alarm_actions       = var.actions_alarm
+  ok_actions          = var.actions_ok
+
+  dimensions = {
+    DBInstanceIdentifier = var.db_instance_id
+  }
+  tags = var.tags
+}
+
+
 // Memory Utilization
 resource "aws_cloudwatch_metric_alarm" "memory_freeable_too_low" {
   count               = var.create_low_memory_alarm ? 1 : 0
