@@ -223,3 +223,9 @@ variable "low_database_connections_threshold" {
   default     = "10"
   description = "Alarm threshold for the 'lowDatabaseConnections' alarm"
 }
+
+variable "ebs_byte_balance_too_low_threshold" {
+  type        = string
+  default     = "98"
+  description = "Alarm threshold for the 'ebsByteBalanceTooLow' alarm"
+}
